@@ -7,7 +7,7 @@
 - optional external or local Ollama/OpenAI-compatible LLM endpoint
 
 ## Environment
-- see [deploy/.env.production.example](/home/aseda/Desktop/english_tech/deploy/.env.production.example)
+- see [`deploy/.env.production.example`](../deploy/.env.production.example)
 - `ENGLISH_TECH_ENV=production`
 - `ENGLISH_TECH_DATABASE_URL=postgresql+psycopg://...`
 - `ENGLISH_TECH_REQUIRE_POSTGRES_IN_PRODUCTION=true`
