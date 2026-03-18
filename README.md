@@ -272,4 +272,4 @@ tests/                      Backend test suite
 - [`docs/flutter_integration.md`](docs/flutter_integration.md)
 - [`docs/implementation_phase_plan.md`](docs/implementation_phase_plan.md)
 - [`docs/production_deployment.md`](docs/production_deployment.md)
-- [`docs/voice_first_refactor.md`](docs/voice_first_refactor.md)
+- [`docs/voice_first.md`](docs/voice_first.md)
