@@ -1,4 +1,4 @@
-# Voice-First Refactor
+# Voice-First
 
 ## Goal
 Make `english_tech` a voice-first coaching product where the backend owns progress narration,
