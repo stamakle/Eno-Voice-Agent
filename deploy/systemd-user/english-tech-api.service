@@ -1,0 +1,13 @@
+[Unit]
+Description=English Tech API
+After=english-tech-postgres.service english-tech-redis.service
+Requires=english-tech-postgres.service english-tech-redis.service
+
+[Service]
+Type=simple
+WorkingDirectory=/home/aseda/Desktop/english_tech
+ExecStart=/home/aseda/Desktop/english_tech/scripts/local_services/run_backend_with_local_stack.sh
+Restart=on-failure
+
+[Install]
+WantedBy=default.target

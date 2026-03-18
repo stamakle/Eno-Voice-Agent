@@ -1,0 +1,12 @@
+[Unit]
+Description=English Tech local Redis
+After=network.target
+
+[Service]
+Type=forking
+ExecStart=/home/aseda/Desktop/english_tech/scripts/local_services/start_local_redis.sh
+ExecStop=/home/aseda/Desktop/english_tech/scripts/local_services/stop_local_redis.sh
+Restart=on-failure
+
+[Install]
+WantedBy=default.target

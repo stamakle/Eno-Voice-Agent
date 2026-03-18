@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<body>
+<button onclick="testWsCors()">Test WS CORS</button>
+<pre id="result"></pre>
+<script>
+function testWsCors() {
+    const ws = new WebSocket('ws://127.0.0.1:8091/ws/coach?token=invalidtoken');
+    ws.onopen = () => { document.getElementById('result').innerText = `WS Open`; };
+    ws.onerror = (e) => { document.getElementById('result').innerText = `WS Error`; };
+}
+</script>
+</body>
+</html>

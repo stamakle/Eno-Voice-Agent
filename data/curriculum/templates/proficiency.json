@@ -1,0 +1,86 @@
+{
+  "course_id": "proficiency",
+  "title": "High-Level English Mastery",
+  "level_band": "proficiency",
+  "cefr_range": "C1-C2",
+  "chapters": [
+    {
+      "chapter_id": "nuance",
+      "title": "Nuance And Register",
+      "objective": "Develop flexible control over tone, precision, and audience awareness.",
+      "lessons": [
+        {
+          "lesson_id": "prof_nuance_01",
+          "title": "Adjust Register For Audience",
+          "goal": "Say the same idea in formal, neutral, and conversational English.",
+          "target_vocabulary": ["register", "tone", "succinct", "diplomatic", "casual"],
+          "target_grammar": ["hedging", "formal structures", "discourse markers"],
+          "pronunciation_focus": ["diplomatic", "succinct"],
+          "exercises": [
+            {
+              "exercise_id": "prof_nuance_01_teach",
+              "exercise_type": "teach",
+              "prompt": "Teach how to restate one message for a manager, friend, and client.",
+              "expected_answer": null,
+              "correction_focus": ["register", "precision"]
+            },
+            {
+              "exercise_id": "prof_nuance_01_roleplay",
+              "exercise_type": "roleplay",
+              "prompt": "Have the learner restate a delay update for three different audiences.",
+              "expected_answer": null,
+              "correction_focus": ["tone", "audience fit"]
+            }
+          ],
+          "success_criteria": [
+            "Learner can produce distinct tones for different audiences.",
+            "Learner uses hedging and register control effectively."
+          ],
+          "review_rule": {
+            "review_after_days": 7,
+            "trigger": "Review if audience adaptation remains flat across scenarios."
+          }
+        }
+      ]
+    },
+    {
+      "chapter_id": "advanced_speaking",
+      "title": "Advanced Speaking Performance",
+      "objective": "Improve persuasive speaking, synthesis, and extended response control.",
+      "lessons": [
+        {
+          "lesson_id": "prof_speaking_01",
+          "title": "Lead A Complex Discussion",
+          "goal": "Moderate a discussion, synthesize viewpoints, and propose a conclusion.",
+          "target_vocabulary": ["synthesize", "trade-off", "constraint", "consensus", "implication"],
+          "target_grammar": ["complex clauses", "signposting", "summary language"],
+          "pronunciation_focus": ["consensus", "implication"],
+          "exercises": [
+            {
+              "exercise_id": "prof_speaking_01_conversation",
+              "exercise_type": "conversation",
+              "prompt": "Run a discussion about product trade-offs and ask the learner to moderate it.",
+              "expected_answer": null,
+              "correction_focus": ["coherence", "leadership language"]
+            },
+            {
+              "exercise_id": "prof_speaking_01_recap",
+              "exercise_type": "recap",
+              "prompt": "Ask the learner to summarize the discussion and propose a decision.",
+              "expected_answer": null,
+              "correction_focus": ["summary accuracy", "clarity"]
+            }
+          ],
+          "success_criteria": [
+            "Learner can summarize multiple viewpoints.",
+            "Learner can state a conclusion with rationale."
+          ],
+          "review_rule": {
+            "review_after_days": 7,
+            "trigger": "Review if synthesis or signposting breaks down in long responses."
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "course_id": "advanced",
+  "title": "Professional And Fluent English",
+  "level_band": "advanced",
+  "cefr_range": "B1-B2",
+  "chapters": [
+    {
+      "chapter_id": "workplace",
+      "title": "Workplace Communication",
+      "objective": "Develop confident speaking in meetings, updates, and collaboration.",
+      "lessons": [
+        {
+          "lesson_id": "adv_work_01",
+          "title": "Give A Project Update",
+          "goal": "Explain project progress, blockers, and next steps clearly.",
+          "target_vocabulary": ["progress", "blocker", "deadline", "priority", "deliverable"],
+          "target_grammar": ["present perfect", "future plans", "linking language"],
+          "pronunciation_focus": ["priority", "deadline"],
+          "exercises": [
+            {
+              "exercise_id": "adv_work_01_teach",
+              "exercise_type": "teach",
+              "prompt": "Model a concise status update with progress, blocker, and next step.",
+              "expected_answer": null,
+              "correction_focus": ["structure", "clarity"]
+            },
+            {
+              "exercise_id": "adv_work_01_roleplay",
+              "exercise_type": "roleplay",
+              "prompt": "Run a manager-team-member roleplay where the learner gives a project update.",
+              "expected_answer": null,
+              "correction_focus": ["fluency", "professional tone"]
+            }
+          ],
+          "success_criteria": [
+            "Learner can explain current progress in a structured way.",
+            "Learner can state one blocker and one next action clearly."
+          ],
+          "review_rule": {
+            "review_after_days": 4,
+            "trigger": "Review if the learner gives updates without structure or misses transition language."
+          }
+        }
+      ]
+    },
+    {
+      "chapter_id": "opinions",
+      "title": "Opinions And Arguments",
+      "objective": "Strengthen spoken reasoning, nuance, and disagreement management.",
+      "lessons": [
+        {
+          "lesson_id": "adv_opinion_01",
+          "title": "Defend An Opinion Politely",
+          "goal": "Express a clear opinion with reasons and respectful disagreement.",
+          "target_vocabulary": ["in my view", "however", "evidence", "concern", "benefit"],
+          "target_grammar": ["opinion markers", "contrast clauses"],
+          "pronunciation_focus": ["however", "benefit"],
+          "exercises": [
+            {
+              "exercise_id": "adv_opinion_01_conversation",
+              "exercise_type": "conversation",
+              "prompt": "Ask the learner to discuss remote work and defend their view.",
+              "expected_answer": null,
+              "correction_focus": ["argument flow", "register"]
+            }
+          ],
+          "success_criteria": [
+            "Learner gives an opinion plus at least two reasons.",
+            "Learner uses one respectful disagreement phrase."
+          ],
+          "review_rule": {
+            "review_after_days": 5,
+            "trigger": "Review if reasons are underdeveloped or contrast markers are missing."
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+/* Core AI Avatar Styling */
+.omniverse-avatar {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    background: radial-gradient(circle at 35% 35%, rgba(125, 224, 168, 0.2), rgba(9, 18, 14, 0.15) 45%, rgba(8, 17, 13, 0.95) 100%);
+    box-shadow: 0 0 40px rgba(125, 224, 168, 0.1), 0 30px 80px rgba(0, 0, 0, 0.45);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.omniverse-avatar.talking {
+    box-shadow: 0 0 60px rgba(37, 192, 244, 0.35), 0 30px 80px rgba(0, 0, 0, 0.5);
+    transform: scale(1.05); /* Slightly larger for Tailwind glowing orb */
+}
+
+.omniverse-avatar canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 50%;
+    outline: none;
+    display: block;
+    object-fit: cover;
+}
+
+/* Conversation Log Message Styling (Tailwind Add-ons) */
+.message {
+    max-width: min(100%, 48rem);
+    padding: 0.95rem 1rem;
+    border-radius: 18px;
+    line-height: 1.6;
+    animation: slideIn 180ms ease-out;
+}
+
+.message.user {
+    align-self: flex-end;
+    background: rgba(37, 192, 244, 0.2); /* Matching the new Aura Blue */
+    border-bottom-right-radius: 6px;
+    color: #f5f8f8;
+}
+
+.message.assistant {
+    align-self: flex-start;
+    background: rgba(255, 255, 255, 0.08); /* Dark gray glass for Assistant */
+    border-bottom-left-radius: 6px;
+    color: #e2e8f0; 
+}
+
+.message.meta {
+    align-self: flex-start;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px dashed rgba(255,255,255,0.1);
+    color: #94a3b8;
+    font-size: 0.92rem;
+}
+
+.message-text {
+    white-space: pre-wrap;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

@@ -1,0 +1,125 @@
+{
+  "course_id": "beginner",
+  "title": "English Foundations",
+  "level_band": "beginner",
+  "cefr_range": "A1-A2",
+  "chapters": [
+    {
+      "chapter_id": "introductions",
+      "title": "Introductions",
+      "objective": "Help the learner introduce themselves and ask simple personal questions.",
+      "lessons": [
+        {
+          "lesson_id": "beg_intro_01",
+          "title": "Say Hello And Introduce Yourself",
+          "goal": "Introduce yourself with your name, country, and basic role.",
+          "target_vocabulary": ["hello", "name", "from", "student", "work"],
+          "target_grammar": ["be verb", "subject pronouns"],
+          "pronunciation_focus": ["name", "from"],
+          "exercises": [
+            {
+              "exercise_id": "beg_intro_01_teach",
+              "exercise_type": "teach",
+              "prompt": "Teach the learner the model sentence: Hello, my name is Ana. I am from Kenya.",
+              "expected_answer": null,
+              "correction_focus": ["clarity", "word order"]
+            },
+            {
+              "exercise_id": "beg_intro_01_repeat",
+              "exercise_type": "repeat",
+              "prompt": "Ask the learner to repeat a short self-introduction.",
+              "expected_answer": "Hello, my name is ____. I am from ____.",
+              "correction_focus": ["be verb", "pronunciation"]
+            },
+            {
+              "exercise_id": "beg_intro_01_roleplay",
+              "exercise_type": "roleplay",
+              "prompt": "Roleplay meeting a new classmate and asking their name.",
+              "expected_answer": null,
+              "correction_focus": ["question form", "fluency"]
+            }
+          ],
+          "success_criteria": [
+            "Learner can say their name and origin in one short response.",
+            "Learner can ask another person their name."
+          ],
+          "review_rule": {
+            "review_after_days": 2,
+            "trigger": "Repeat if the learner struggles with be verb or self-introduction order."
+          }
+        },
+        {
+          "lesson_id": "beg_intro_02",
+          "title": "Talk About Daily Routine",
+          "goal": "Describe a simple daily routine in the present tense.",
+          "target_vocabulary": ["wake up", "eat", "go", "study", "sleep"],
+          "target_grammar": ["simple present", "time phrases"],
+          "pronunciation_focus": ["wake", "study"],
+          "exercises": [
+            {
+              "exercise_id": "beg_intro_02_teach",
+              "exercise_type": "teach",
+              "prompt": "Teach three routine verbs and a sample sentence about a daily routine.",
+              "expected_answer": null,
+              "correction_focus": ["present tense"]
+            },
+            {
+              "exercise_id": "beg_intro_02_conversation",
+              "exercise_type": "conversation",
+              "prompt": "Ask the learner what they do in the morning and evening.",
+              "expected_answer": null,
+              "correction_focus": ["simple present", "time markers"]
+            }
+          ],
+          "success_criteria": [
+            "Learner can describe a two-step routine.",
+            "Learner uses simple present with acceptable intelligibility."
+          ],
+          "review_rule": {
+            "review_after_days": 3,
+            "trigger": "Review if routine verbs are missing or present tense is unstable."
+          }
+        }
+      ]
+    },
+    {
+      "chapter_id": "daily_life",
+      "title": "Daily Life",
+      "objective": "Support simple real-world interactions such as shopping, food, and directions.",
+      "lessons": [
+        {
+          "lesson_id": "beg_daily_01",
+          "title": "Buy Food At A Cafe",
+          "goal": "Order food politely and respond to a simple follow-up question.",
+          "target_vocabulary": ["coffee", "tea", "sandwich", "please", "want"],
+          "target_grammar": ["I would like", "polite requests"],
+          "pronunciation_focus": ["please", "coffee"],
+          "exercises": [
+            {
+              "exercise_id": "beg_daily_01_roleplay",
+              "exercise_type": "roleplay",
+              "prompt": "Roleplay ordering at a cafe as a customer.",
+              "expected_answer": null,
+              "correction_focus": ["politeness", "request pattern"]
+            },
+            {
+              "exercise_id": "beg_daily_01_recap",
+              "exercise_type": "recap",
+              "prompt": "Summarize the best ordering sentence the learner can reuse.",
+              "expected_answer": null,
+              "correction_focus": ["retention"]
+            }
+          ],
+          "success_criteria": [
+            "Learner can order one item politely.",
+            "Learner can answer a quantity or drink-size question."
+          ],
+          "review_rule": {
+            "review_after_days": 2,
+            "trigger": "Review if the learner avoids polite request forms."
+          }
+        }
+      ]
+    }
+  ]
+}

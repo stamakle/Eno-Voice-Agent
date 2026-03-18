@@ -1,0 +1,45 @@
+name: english_tech_flutter
+description: Aura AI - English Coach
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  # Networking
+  http: ^1.2.2
+  web_socket_channel: ^3.0.1
+  # Audio
+  record: ^6.2.0
+  audioplayers: ^6.5.1
+  path_provider: ^2.1.5
+  # Web interop for audio playback in browser (Web Audio API)
+  web: ^1.1.0
+  # State management
+  provider: ^6.1.2
+  # Local persistence
+  shared_preferences: ^2.3.3
+  # UI & design
+  google_fonts: ^6.2.1
+  google_sign_in: ^7.2.0
+  google_sign_in_web: ^1.1.0
+  flutter_animate: ^4.5.0
+  percent_indicator: ^4.2.3
+  shimmer: ^3.0.0
+  flutter_dotenv: ^5.2.1
+  # Permissions
+  permission_handler: ^11.3.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - .env
+    - assets/images/

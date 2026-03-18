@@ -1,0 +1,11 @@
+.venv
+.uv-venv
+__pycache__
+*.pyc
+.flutter-plugins
+.flutter-plugins-dependencies
+flutter_client/build
+flutter_client/.dart_tool
+data/*.db
+data/tts
+.git
