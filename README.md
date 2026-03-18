@@ -1,104 +1,112 @@
-# English Tech
+# Eno Voice Agent
 
-English Tech is a curriculum-driven English learning platform built around a FastAPI backend, a Flutter client, and a voice pipeline that turns learner speech into guided lesson feedback in real time.
+Eno Voice Agent is a voice-first English learning platform built around a FastAPI backend, a Flutter client, and a realtime speech loop for coaching, lessons, and learner progress tracking.
 
-The repository combines deterministic course templates with adaptive lesson orchestration, authenticated learner state, local STT/TTS services, and mobile/web clients for voice-first practice.
+This repository combines curriculum orchestration, authenticated learner state, local STT/TTS services, and mobile/web clients into a single stack for spoken English practice.
 
-## Highlights
+Note: the product-facing name can be `Eno Voice Agent`, while the current Python package and import path remain `english_tech`.
 
-- Curriculum engine for `beginner`, `advanced`, and `proficiency` learning tracks.
-- FastAPI backend with auth, learner profile, dashboard, lesson, coach, and audio APIs.
-- Two realtime WebSocket flows:
-  - `WS /api/coach/ws/coach` for onboarding, guidance, and lesson recommendation.
-  - `WS /ws/lesson` for live lesson turns, partial transcription, correction, and completion.
-- Local speech services using `faster-whisper` for STT and `Piper` for TTS.
+## Overview
+
+- Voice-first English coaching and lesson delivery.
+- Curriculum-driven progression across `beginner`, `advanced`, and `proficiency` tracks.
+- Realtime coach and lesson WebSocket runtimes.
 - Postgres-first persistence with Alembic migrations and SQLite fallback for local development.
-- Flutter client for Android, iOS, web, macOS, Linux, and Windows targets.
-- CI coverage for backend compile/tests plus Flutter analyze/test.
+- Flutter client for mobile, desktop, and web.
+- Production-oriented scaffolding for deployment, rate limiting, and reverse proxying.
 
-## System Overview
+## Architecture
 
 ```text
 Flutter client
-  -> HTTP APIs for auth, profile, dashboard, curriculum, and lesson metadata
+  -> HTTP APIs for auth, profile, curriculum, lesson metadata, dashboard, and audio
   -> WebSockets for coach and live lesson sessions
 
 FastAPI backend
-  -> Curriculum agent for lesson selection and personalization
-  -> Tutor runtime for retry-aware exercise flow
-  -> Speech layer for STT and TTS
-  -> SQLAlchemy + Alembic persistence for learners, auth, results, and review items
+  -> Coach orchestration for onboarding and lesson guidance
+  -> Curriculum agent for lesson sequencing and personalization
+  -> Tutor runtime for retries, correction, and summaries
+  -> Speech services for STT and TTS
+  -> SQLAlchemy + Alembic persistence for learners, auth, sessions, and lesson results
 ```
 
-## Core Capabilities
+## Core Features
 
-- Learner authentication with access/refresh tokens and optional Google sign-in support.
+- Email/password auth with access and refresh tokens.
+- Optional Google sign-in support for Flutter web and compatible clients.
 - Curriculum sequencing with weak-topic prioritization and review-aware lesson selection.
 - Lesson runtime with `teach -> respond -> correct -> retry -> summarize`.
-- Coach runtime that can greet the learner, summarize progress, and open the next lesson.
-- Local speech endpoints:
-  - `POST /api/audio/stt`
-  - `POST /api/audio/tts`
-- Dashboard and profile APIs for progress tracking and learner settings.
-- Metrics and rate limiting for both HTTP and WebSocket traffic.
+- Coach runtime that can greet the learner, summarize progress, and recommend or open the next lesson.
+- Local speech stack:
+  - `faster-whisper` for speech-to-text
+  - `Piper` for text-to-speech
+- Dashboard, learner profile, lesson history, and review queue support.
+- HTTP and WebSocket rate limiting with optional Redis-backed shared state.
+- CI coverage for backend and Flutter validation.
 
-## Repository Layout
+## Tech Stack
 
-```text
-backend/                  FastAPI application package
-backend/english_tech/
-  api/routes/             HTTP and WebSocket routes
-  coaching/               Coach orchestration
-  curriculum/             Templates, runtime, grading, and agent logic
-  learners/               Learner profile and result stores
-  speech/                 STT/TTS integration
-flutter_client/           Flutter application
-data/curriculum/templates/Seed curriculum JSON templates
-alembic/                  Database migrations
-scripts/                  Bootstrap, migration, validation, and speech preload helpers
-deploy/                   Production env example, Caddy config, and systemd units
-docs/                     Architecture, API, deployment, and planning notes
-tests/                    Backend test suite
-```
+- Backend: FastAPI, SQLAlchemy, Alembic, Pydantic
+- Speech: faster-whisper, Piper
+- Client: Flutter
+- Database: Postgres with SQLite development fallback
+- Rate limiting: in-memory or Redis
+- LLM integration: Ollama or OpenAI-compatible endpoints for semantic evaluation
 
-## Backend Quick Start
+## Quick Start
 
 ### Prerequisites
 
 - Python `3.10+`
-- [`uv`](https://docs.astral.sh/uv/) or a comparable Python environment tool
-- Optional:
-  - Postgres for shared/local multi-service development
-  - Redis for shared rate limiting
-  - Ollama or another OpenAI-compatible endpoint for semantic feedback
+- [`uv`](https://docs.astral.sh/uv/)
+- Optional for fuller local development:
+  - Postgres
+  - Redis
+  - Flutter SDK
+  - Ollama or another OpenAI-compatible endpoint
 
-### Install and run
+### Start the backend
 
 ```bash
-cd /home/aseda/Desktop/english_tech
+git clone https://github.com/stamakle/Eno-Voice-Agent.git
+cd Eno-Voice-Agent
 uv venv --python 3.10 .uv-venv
 uv pip install --python .uv-venv/bin/python -e .
 PYTHONPATH=backend .uv-venv/bin/python -m alembic upgrade head
 PYTHONPATH=backend .uv-venv/bin/uvicorn english_tech.main:app --host 127.0.0.1 --port 8091 --reload
 ```
 
-The backend prefers `ENGLISH_TECH_DATABASE_URL`, which defaults to local Postgres. In development, if that connection fails, it falls back to SQLite at `data/english_tech.db`.
+Then open:
 
-### Optional local bootstrap helpers
+- API health: `http://127.0.0.1:8091/health`
+- OpenAPI docs: `http://127.0.0.1:8091/docs`
 
-Migrate legacy JSON learner/result data into the active database:
+### Database behavior
+
+The app prefers `ENGLISH_TECH_DATABASE_URL`, which defaults to local Postgres. In development, if that connection is unavailable, the app can fall back to SQLite at `data/english_tech.db`.
+
+For production, set:
+
+```bash
+ENGLISH_TECH_ENV=production
+ENGLISH_TECH_REQUIRE_POSTGRES_IN_PRODUCTION=true
+```
+
+## Optional Local Helpers
+
+Migrate legacy JSON learner and result files into the active database:
 
 ```bash
 PYTHONPATH=backend .uv-venv/bin/python scripts/migrate_json_to_db.py
 ```
 
-Preload local Piper runtime assets before the first TTS request:
+Preload Piper assets before the first TTS request:
 
 ```bash
 PYTHONPATH=backend .uv-venv/bin/python scripts/preload_speech_assets.py
 ```
 
-Run the backend against local Postgres and Redis with the checked-in helper script:
+Run against local Postgres and Redis with the included helper:
 
 ```bash
 ./scripts/local_services/run_backend_with_local_stack.sh
@@ -106,18 +114,18 @@ Run the backend against local Postgres and Redis with the checked-in helper scri
 
 ## Flutter Client
 
-The Flutter app lives in [`flutter_client/`](flutter_client) and is already scaffolded for mobile, desktop, and web targets.
+The Flutter app lives in [`flutter_client/`](flutter_client) and is configured for Android, iOS, macOS, Linux, Windows, and web.
 
-### Default targets
+Default runtime targets:
 
 - API: `http://10.0.2.2:8091`
 - Coach WebSocket: `ws://10.0.2.2:8091/api/coach/ws/coach`
 - Lesson WebSocket: `ws://10.0.2.2:8091/ws/lesson`
 
-### Run locally
+Run locally:
 
 ```bash
-cd /home/aseda/Desktop/english_tech/flutter_client
+cd flutter_client
 flutter pub get
 flutter run \
   --dart-define=ENGLISH_TECH_API_BASE_URL=http://<host>:8091 \
@@ -125,10 +133,10 @@ flutter run \
   --dart-define=ENGLISH_TECH_LESSON_WS_URL=ws://<host>:8091/ws/lesson
 ```
 
-Example Chrome configuration used in local development:
+Example web run:
 
 ```bash
-cd /home/aseda/Desktop/english_tech/flutter_client
+cd flutter_client
 flutter run -d chrome \
   --web-hostname 127.0.0.1 \
   --web-port 8100 \
@@ -138,32 +146,48 @@ flutter run -d chrome \
   --dart-define=ENGLISH_TECH_LESSON_WS_URL=ws://127.0.0.1:8091/ws/lesson
 ```
 
-## Important Configuration
+## Configuration
+
+### Core environment variables
 
 | Variable | Purpose |
 | --- | --- |
-| `ENGLISH_TECH_ENV` | `development` or `production`; production disables permissive fallbacks. |
+| `ENGLISH_TECH_ENV` | `development` or `production`. |
 | `ENGLISH_TECH_DATABASE_URL` | Primary database connection string. |
-| `ENGLISH_TECH_DATABASE_FALLBACK_URL` | SQLite fallback used in development if Postgres is unavailable. |
-| `ENGLISH_TECH_DB_AUTO_CREATE` | Auto-run Alembic migrations on startup. Useful for local bootstrapping. |
-| `ENGLISH_TECH_REQUIRE_POSTGRES_IN_PRODUCTION` | Forces Postgres in production mode. |
+| `ENGLISH_TECH_DATABASE_FALLBACK_URL` | SQLite fallback used in development. |
+| `ENGLISH_TECH_DB_AUTO_CREATE` | Auto-runs migrations at startup. Useful for bootstrap only. |
+| `ENGLISH_TECH_REQUIRE_POSTGRES_IN_PRODUCTION` | Enforces Postgres when running in production mode. |
 | `ENGLISH_TECH_RATE_LIMIT_BACKEND` | `memory` or `redis`. |
-| `ENGLISH_TECH_REDIS_URL` | Redis URL for shared rate limiting. |
-| `ENGLISH_TECH_STT_MODEL` | `faster-whisper` model name, default `base.en`. |
-| `ENGLISH_TECH_STT_DEVICE` | STT device selection, default `cuda` when available, otherwise `cpu`. |
-| `ENGLISH_TECH_TTS_VOICE` | Piper voice model, default `en_US-lessac-medium`. |
-| `ENGLISH_TECH_TTS_RATE` | Speech rate override for generated TTS audio. |
-| `ENGLISH_TECH_GOOGLE_WEB_CLIENT_ID` | Google OAuth client for Flutter web sign-in. |
-| `ENGLISH_TECH_GOOGLE_ALLOWED_CLIENT_IDS` | Comma-separated client IDs accepted by the backend. |
-| `ENGLISH_TECH_LLM_PROVIDER` | `ollama`, `openai_compat`, or `none`. |
-| `ENGLISH_TECH_LLM_BASE_URL` | Base URL for the configured LLM endpoint. |
-| `ENGLISH_TECH_LLM_MODEL` | Model name used for semantic lesson evaluation. |
+| `ENGLISH_TECH_REDIS_URL` | Redis connection string. |
 
-See [`deploy/.env.production.example`](deploy/.env.production.example) for a production-oriented baseline.
+### Speech and model settings
+
+| Variable | Purpose |
+| --- | --- |
+| `ENGLISH_TECH_STT_MODEL` | Whisper model name, default `base.en`. |
+| `ENGLISH_TECH_STT_DEVICE` | `cpu` or `cuda`. |
+| `ENGLISH_TECH_STT_COMPUTE_TYPE` | Whisper compute mode. |
+| `ENGLISH_TECH_TTS_VOICE` | Piper voice model name. |
+| `ENGLISH_TECH_TTS_RATE` | Speech rate override. |
+| `ENGLISH_TECH_LLM_PROVIDER` | `ollama`, `openai_compat`, or `none`. |
+| `ENGLISH_TECH_LLM_BASE_URL` | Base URL for the model provider. |
+| `ENGLISH_TECH_LLM_MODEL` | Model name for semantic lesson evaluation. |
+
+### Auth and client settings
+
+| Variable | Purpose |
+| --- | --- |
+| `ENGLISH_TECH_GOOGLE_WEB_CLIENT_ID` | Google OAuth client for Flutter web sign-in. |
+| `ENGLISH_TECH_GOOGLE_SERVER_CLIENT_ID` | Optional server/native client ID. |
+| `ENGLISH_TECH_GOOGLE_ALLOWED_CLIENT_IDS` | Comma-separated allowed Google client IDs. |
+| `ENGLISH_TECH_APP_BASE_URL` | Public client base URL used in auth flows. |
+| `ENGLISH_TECH_CORS_ORIGIN_REGEX` | Allowed browser origins. |
+
+Production defaults and examples live in [`deploy/.env.production.example`](deploy/.env.production.example).
 
 ## API Summary
 
-Key HTTP routes:
+Important HTTP routes:
 
 - `GET /health`
 - `POST /api/auth/register`
@@ -187,36 +211,58 @@ Realtime routes:
 - `WS /api/coach/ws/coach?token=<bearer-token>`
 - `WS /ws/lesson?token=<bearer-token>`
 
-For message-level details, see [`docs/api_contract.md`](docs/api_contract.md).
+For request/response and event details, see [`docs/api_contract.md`](docs/api_contract.md).
 
-## Testing and CI
+## Development and Testing
 
-Backend:
+Backend tests:
 
 ```bash
-cd /home/aseda/Desktop/english_tech
 PYTHONPATH=backend python -m unittest discover -s tests -p 'test_*.py'
 ```
 
-Flutter:
+Flutter validation:
 
 ```bash
-cd /home/aseda/Desktop/english_tech/flutter_client
+cd flutter_client
 flutter pub get
 flutter analyze --no-fatal-infos
 flutter test
 ```
 
-GitHub Actions runs both paths from [`.github/workflows/ci.yml`](.github/workflows/ci.yml).
+CI is defined in [`.github/workflows/ci.yml`](.github/workflows/ci.yml).
 
-## Deployment Notes
+## Production Notes
 
-- [`Dockerfile`](Dockerfile) builds the backend image.
-- [`deploy/Caddyfile`](deploy/Caddyfile) provides a reverse-proxy example.
-- [`deploy/systemd-user/`](deploy/systemd-user) contains user-level service units.
-- [`docs/production_deployment.md`](docs/production_deployment.md) documents the current production expectations.
+This repository includes production-oriented pieces, not just a prototype:
 
-Production mode expects Postgres and is designed to work with Redis-backed rate limiting. A full application Compose stack is not currently checked in; the existing [`docker-compose.yml`](docker-compose.yml) is limited to a Neo4j service.
+- [Dockerfile](Dockerfile) for backend image builds
+- [deploy/.env.production.example](deploy/.env.production.example) for production configuration
+- [deploy/Caddyfile](deploy/Caddyfile) for reverse proxy setup
+- [deploy/systemd-user/](deploy/systemd-user) for user-level service definitions
+- authenticated metrics and configurable rate limiting
+- Postgres enforcement in production mode
+
+Important caveat: [`docker-compose.yml`](docker-compose.yml) is not a full application stack today. It currently contains only a Neo4j service, so production deployment should follow the documented environment and service setup instead of relying on Compose alone.
+
+## Repository Layout
+
+```text
+backend/                    FastAPI application package
+backend/english_tech/
+  api/routes/               HTTP and WebSocket routes
+  coaching/                 Coach orchestration
+  curriculum/               Templates, runtime, grading, and agent logic
+  learners/                 Learner profile and result persistence
+  speech/                   STT/TTS integration
+flutter_client/             Flutter application
+alembic/                    Database migrations
+data/curriculum/templates/  Seed curriculum templates
+scripts/                    Bootstrap, validation, migration, and local service helpers
+deploy/                     Deployment config, env examples, and service units
+docs/                       Architecture, API, and deployment docs
+tests/                      Backend test suite
+```
 
 ## Documentation
 
